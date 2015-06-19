@@ -1,6 +1,6 @@
-﻿using System;
-using MonoTouch.Foundation;
-using MonoTouch.Security;
+using System;
+using Foundation;
+using Security;
 
 namespace IHS.MvvmCross.Plugins.Keychain.Touch
 {
