@@ -31,6 +31,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "windowsphone", "windowsphon
 		Common\windowsphone\KeychainPluginBootstrap.cs.pp = Common\windowsphone\KeychainPluginBootstrap.cs.pp
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IHS.MvvmCross.Plugins.Keychain.Universal", "IHS.MvvmCross.Plugins.Keychain.Universal\IHS.MvvmCross.Plugins.Keychain.Universal.csproj", "{A9E47E6C-6C85-4E63-BF71-EC7F4210DDC3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -77,6 +79,14 @@ Global
 		{E824388D-A5B5-4A87-A953-4B31DD35B453}.Release|ARM.Build.0 = Release|ARM
 		{E824388D-A5B5-4A87-A953-4B31DD35B453}.Release|x86.ActiveCfg = Release|x86
 		{E824388D-A5B5-4A87-A953-4B31DD35B453}.Release|x86.Build.0 = Release|x86
+		{A9E47E6C-6C85-4E63-BF71-EC7F4210DDC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9E47E6C-6C85-4E63-BF71-EC7F4210DDC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9E47E6C-6C85-4E63-BF71-EC7F4210DDC3}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{A9E47E6C-6C85-4E63-BF71-EC7F4210DDC3}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A9E47E6C-6C85-4E63-BF71-EC7F4210DDC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9E47E6C-6C85-4E63-BF71-EC7F4210DDC3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9E47E6C-6C85-4E63-BF71-EC7F4210DDC3}.Release|ARM.ActiveCfg = Release|Any CPU
+		{A9E47E6C-6C85-4E63-BF71-EC7F4210DDC3}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
