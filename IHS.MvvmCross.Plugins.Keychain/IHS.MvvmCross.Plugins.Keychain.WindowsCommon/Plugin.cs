@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 using Cirrious.CrossCore;
 using Cirrious.CrossCore.Plugins;
 
-namespace IHS.MvvmCross.Plugins.Keychain.Universal
+namespace IHS.MvvmCross.Plugins.Keychain.WindowsCommon
 {
     public class Plugin : IMvxPlugin
     {
         public void Load()
         {
-            Mvx.RegisterType<IKeychain, WindowsUniversalKeychain>();
+            Mvx.RegisterType<IKeychain, WindowsCommonKeychain>();
         }
     }
 }

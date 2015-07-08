@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using Windows.Security.Credentials;
 
-namespace IHS.MvvmCross.Plugins.Keychain.Universal
+namespace IHS.MvvmCross.Plugins.Keychain.WindowsCommon
 {
-    public class WindowsUniversalKeychain : IKeychain
+    public class WindowsCommonKeychain : IKeychain
     {
         public bool SetPassword(string password, string serviceName, string account)
         {

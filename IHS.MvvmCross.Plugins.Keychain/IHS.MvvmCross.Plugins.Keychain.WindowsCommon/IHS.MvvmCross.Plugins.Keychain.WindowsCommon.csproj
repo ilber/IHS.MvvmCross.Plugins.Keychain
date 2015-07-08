@@ -8,8 +8,8 @@
     <ProjectGuid>{A9E47E6C-6C85-4E63-BF71-EC7F4210DDC3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>IHS.MvvmCross.Plugins.Keychain.Universal</RootNamespace>
-    <AssemblyName>IHS.MvvmCross.Plugins.Keychain.Universal</AssemblyName>
+    <RootNamespace>IHS.MvvmCross.Plugins.Keychain.WindowsCommon</RootNamespace>
+    <AssemblyName>IHS.MvvmCross.Plugins.Keychain.WindowsCommon</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -43,7 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Plugin.cs" />
-    <Compile Include="WindowsUniversalKeychain.cs" />
+    <Compile Include="WindowsCommonKeychain.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

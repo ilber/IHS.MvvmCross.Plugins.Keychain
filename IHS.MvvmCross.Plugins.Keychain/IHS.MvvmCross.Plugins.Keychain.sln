@@ -16,7 +16,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{ECA5EA
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Xamarin.iOS10", "Xamarin.iOS10", "{426534FD-E6C9-4B23-99B2-AF8CE0CB7016}"
 	ProjectSection(SolutionItems) = preProject
-		Common\monotouch\KeychainPluginBootstrap.cs.pp = Common\monotouch\KeychainPluginBootstrap.cs.pp
+		Common\Xamarin.iOS10\KeychainPluginBootstrap.cs.pp = Common\Xamarin.iOS10\KeychainPluginBootstrap.cs.pp
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "monodroid", "monodroid", "{048301F1-8198-42E7-861E-270B14B0E986}"
@@ -31,7 +31,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "windowsphone", "windowsphon
 		Common\windowsphone\KeychainPluginBootstrap.cs.pp = Common\windowsphone\KeychainPluginBootstrap.cs.pp
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IHS.MvvmCross.Plugins.Keychain.Universal", "IHS.MvvmCross.Plugins.Keychain.Universal\IHS.MvvmCross.Plugins.Keychain.Universal.csproj", "{A9E47E6C-6C85-4E63-BF71-EC7F4210DDC3}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WindowsCommon", "WindowsCommon", "{DB44BB87-D785-47CF-A720-D2C1150C9821}"
+	ProjectSection(SolutionItems) = preProject
+		Common\WindowsCommon\KeychainPluginBootstrap.cs.pp = Common\WindowsCommon\KeychainPluginBootstrap.cs.pp
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IHS.MvvmCross.Plugins.Keychain.WindowsCommon", "IHS.MvvmCross.Plugins.Keychain.WindowsCommon\IHS.MvvmCross.Plugins.Keychain.WindowsCommon.csproj", "{A9E47E6C-6C85-4E63-BF71-EC7F4210DDC3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -95,5 +100,6 @@ Global
 		{426534FD-E6C9-4B23-99B2-AF8CE0CB7016} = {ECA5EA11-ABE7-4DFC-AEDB-B7BB577345A8}
 		{048301F1-8198-42E7-861E-270B14B0E986} = {ECA5EA11-ABE7-4DFC-AEDB-B7BB577345A8}
 		{AD67D6D8-1310-4A46-9EE0-26CE86764D76} = {ECA5EA11-ABE7-4DFC-AEDB-B7BB577345A8}
+		{DB44BB87-D785-47CF-A720-D2C1150C9821} = {ECA5EA11-ABE7-4DFC-AEDB-B7BB577345A8}
 	EndGlobalSection
 EndGlobal
