@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Cirrious.CrossCore;
-using Cirrious.CrossCore.Plugins;
+using MvvmCross.Platform;
+using MvvmCross.Platform.Plugins;
 
 namespace IHS.MvvmCross.Plugins.Keychain
 {
