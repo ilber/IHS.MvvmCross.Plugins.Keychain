@@ -6,6 +6,11 @@ namespace IHS.MvvmCross.Plugins.Keychain.Touch
 {
     public class TouchKeychain : IKeychain
     {
+		public void Init(string protectionPassword)
+		{
+			//do nothing here not needed for the ios keychain
+		}
+
         public bool SetPassword(string password, string serviceName, string account)
         {
             var record = new SecRecord(SecKind.GenericPassword)

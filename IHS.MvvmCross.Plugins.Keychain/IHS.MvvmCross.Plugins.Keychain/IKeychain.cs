@@ -2,6 +2,7 @@
 {
     public interface IKeychain
     {
+		void Init(string protectionPassword);
         bool SetPassword(string password, string serviceName, string account);
         string GetPassword(string serviceName, string account);
         bool DeletePassword(string serviceName, string account);

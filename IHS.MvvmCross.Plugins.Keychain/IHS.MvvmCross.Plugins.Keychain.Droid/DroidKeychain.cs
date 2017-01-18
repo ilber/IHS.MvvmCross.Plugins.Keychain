@@ -14,27 +14,38 @@ namespace IHS.MvvmCross.Plugins.Keychain.Droid
 {
 	public class DroidKeychain : IKeychain
 	{
-		private KeyStore _keyStore;
+		KeyStore _keyStore;
+
 		KeyStore.PasswordProtection _passwordProtection;
 
 		static readonly object fileLock = new object();
 
-		const string FileName = "Xamarin.Social.Accounts";
-		static readonly char[] Password = "3295043EA18CA264B2C40E0B72051DEF2D07AD2B4593F43DDDE1515A7EC32617".ToCharArray();
+		const string FileName = "App.Accounts";
 
-		private const string PASSWORD_KEY = "password";
+		char[] _userSelectedPassword;
 
-		private Context _context;
-		private Context Context
+		bool _keychainInitialized;
+
+		Context _context;
+
+		Context Context
 		{
 			get { return _context ?? (_context = Mvx.Resolve<IMvxAndroidGlobals>().ApplicationContext); }
 			set { _context = value; }
 		}
 
-		public DroidKeychain()
+		public void Init(string protectionPassword)
 		{
+			if (string.IsNullOrWhiteSpace(protectionPassword))
+			{
+				throw new ArgumentException("Cannot initialize without protection password.", nameof(protectionPassword));
+			}
+
+			_userSelectedPassword = protectionPassword.ToCharArray();
+
 			_keyStore = KeyStore.GetInstance(KeyStore.DefaultType);
-			_passwordProtection = new KeyStore.PasswordProtection(Password);
+
+			_passwordProtection = new KeyStore.PasswordProtection(_userSelectedPassword);
 
 			try
 			{
@@ -42,18 +53,25 @@ namespace IHS.MvvmCross.Plugins.Keychain.Droid
 				{
 					using (var s = Context.OpenFileInput(FileName))
 					{
-						_keyStore.Load(s, Password);
+						_keyStore.Load(s, _userSelectedPassword);
 					}
 				}
 			}
 			catch (FileNotFoundException)
 			{
-				LoadEmptyKeyStore(Password);
+				LoadEmptyKeyStore(_userSelectedPassword);
 			}
+
+			_keychainInitialized = true;
 		}
 
 		public bool SetPassword(string password, string serviceName, string account)
 		{
+			if (!_keychainInitialized)
+			{
+				throw new InvalidOperationException($"Call [{nameof(Init)}] before using the component");
+			}
+
 			var storedAccount = FindAccountsForService(serviceName).FirstOrDefault(ac => ac.Username == account);
 			if (storedAccount != null)
 			{
@@ -71,12 +89,22 @@ namespace IHS.MvvmCross.Plugins.Keychain.Droid
 
 		public string GetPassword(string serviceName, string account)
 		{
+			if (!_keychainInitialized)
+			{
+				throw new InvalidOperationException($"Call [{nameof(Init)}] before using the component");
+			}
+
 			var storedAccount = FindAccountsForService(serviceName).FirstOrDefault(ac => ac.Username == account);
 			return storedAccount != null ? storedAccount.Password : null;
 		}
 
 		public bool DeletePassword(string serviceName, string account)
 		{
+			if (!_keychainInitialized)
+			{
+				throw new InvalidOperationException($"Call [{nameof(Init)}] before using the component");
+			}
+
 			var storedAccount = FindAccountsForService(serviceName).FirstOrDefault(ac => ac.Username == account);
 			if (storedAccount == null)
 				return true;
@@ -89,6 +117,11 @@ namespace IHS.MvvmCross.Plugins.Keychain.Droid
 
 		public LoginDetails GetLoginDetails(string serviceName)
 		{
+			if (!_keychainInitialized)
+			{
+				throw new InvalidOperationException($"Call [{nameof(Init)}] before using the component");
+			}
+
 			var storedAccount = FindAccountsForService(serviceName).FirstOrDefault();
 
 			return storedAccount;
@@ -96,6 +129,11 @@ namespace IHS.MvvmCross.Plugins.Keychain.Droid
 
 		public bool DeleteAccount(string serviceName, string account)
 		{
+			if (!_keychainInitialized)
+			{
+				throw new InvalidOperationException($"Call [{nameof(Init)}] before using the component");
+			}
+
 			var storedAccount = FindAccountsForService(serviceName).FirstOrDefault(ac => ac.Username == account);
 			if (storedAccount == null)
 				return true;
@@ -106,7 +144,8 @@ namespace IHS.MvvmCross.Plugins.Keychain.Droid
 		}
 
 		#region Port from Xamarin.Secutiry
-		private IEnumerable<LoginDetails> FindAccountsForService(string serviceId)
+
+		IEnumerable<LoginDetails> FindAccountsForService(string serviceId)
 		{
 			var r = new List<LoginDetails>();
 
@@ -116,7 +155,7 @@ namespace IHS.MvvmCross.Plugins.Keychain.Droid
 			while (aliases.HasMoreElements)
 			{
 				var alias = aliases.NextElement().ToString();
-				if (alias.EndsWith(postfix))
+				if (alias.EndsWith(postfix, StringComparison.Ordinal))
 				{
 					var e = _keyStore.GetEntry(alias, _passwordProtection) as KeyStore.SecretKeyEntry;
 					if (e != null)
@@ -129,12 +168,12 @@ namespace IHS.MvvmCross.Plugins.Keychain.Droid
 				}
 			}
 
-			r.Sort((a, b) => a.Username.CompareTo(b.Username));
+			r.Sort((a, b) => string.Compare(a.Username, b.Username, StringComparison.Ordinal));
 
 			return r;
 		}
 
-		private void Save(LoginDetails account, string serviceId)
+		void Save(LoginDetails account, string serviceId)
 		{
 			var alias = MakeAlias(account, serviceId);
 
@@ -145,7 +184,7 @@ namespace IHS.MvvmCross.Plugins.Keychain.Droid
 			Save();
 		}
 
-		private void Delete(LoginDetails account, string serviceId)
+		void Delete(LoginDetails account, string serviceId)
 		{
 			var alias = MakeAlias(account, serviceId);
 
@@ -153,23 +192,23 @@ namespace IHS.MvvmCross.Plugins.Keychain.Droid
 			Save();
 		}
 
-		private void Save()
+		void Save()
 		{
 			lock (fileLock)
 			{
 				using (var s = Context.OpenFileOutput(FileName, FileCreationMode.Private))
 				{
-					_keyStore.Store(s, Password);
+					_keyStore.Store(s, _userSelectedPassword);
 				}
 			}
 		}
 
-		private static string MakeAlias(LoginDetails account, string serviceId)
+		static string MakeAlias(LoginDetails account, string serviceId)
 		{
 			return account.Username + "-" + serviceId;
 		}
 
-		private class SecretAccount : Java.Lang.Object, ISecretKey
+		class SecretAccount : Java.Lang.Object, ISecretKey
 		{
 			byte[] bytes;
 			public SecretAccount(LoginDetails account)
@@ -196,12 +235,12 @@ namespace IHS.MvvmCross.Plugins.Keychain.Droid
 			}
 		}
 
-		private static IntPtr id_load_Ljava_io_InputStream_arrayC;
+		static IntPtr id_load_Ljava_io_InputStream_arrayC;
 
 		/// <summary>
 		/// Work around Bug https://bugzilla.xamarin.com/show_bug.cgi?id=6766
 		/// </summary>
-		private void LoadEmptyKeyStore(char[] password)
+		void LoadEmptyKeyStore(char[] password)
 		{
 			if (id_load_Ljava_io_InputStream_arrayC == IntPtr.Zero)
 			{
