@@ -7,8 +7,6 @@ using Android.Runtime;
 using Java.IO;
 using Java.Security;
 using Javax.Crypto;
-using MvvmCross.Platform;
-using MvvmCross.Platform.Droid;
 
 namespace IHS.MvvmCross.Plugins.Keychain.Droid
 {
@@ -18,7 +16,7 @@ namespace IHS.MvvmCross.Plugins.Keychain.Droid
 
 		KeyStore.PasswordProtection _passwordProtection;
 
-		static readonly object fileLock = new object();
+		static readonly object _fileLock = new object();
 
 		const string FileName = "App.Accounts";
 
@@ -30,7 +28,7 @@ namespace IHS.MvvmCross.Plugins.Keychain.Droid
 
 		Context Context
 		{
-			get { return _context ?? (_context = Mvx.Resolve<IMvxAndroidGlobals>().ApplicationContext); }
+			get { return _context ?? (_context = Android.App.Application.Context); }
 			set { _context = value; }
 		}
 
@@ -49,7 +47,7 @@ namespace IHS.MvvmCross.Plugins.Keychain.Droid
 
 			try
 			{
-				lock (fileLock)
+				lock (_fileLock)
 				{
 					using (var s = Context.OpenFileInput(FileName))
 					{
@@ -194,7 +192,7 @@ namespace IHS.MvvmCross.Plugins.Keychain.Droid
 
 		void Save()
 		{
-			lock (fileLock)
+			lock (_fileLock)
 			{
 				using (var s = Context.OpenFileOutput(FileName, FileCreationMode.Private))
 				{
